@@ -1,7 +1,10 @@
 {{template "partials/header" .}}
 <main class="content-section">
 	<h1>{{.Title}}</h1>
-	<h2>{{.header}}</h2>
+	<h2>Your IP Address: {{.IpAddress}}</h2>
+	<h2>Browser Used: {{.devicerBrowser}} {{.devicerBrowserVersion}}</h2>
+	<h2>Your Device OS: {{.deviceOs}}</h2>
+	<h2>Your Location: {{.deviceLocaliation}}</h2>
 </main>
 
 {{template "partials/footer" .}}

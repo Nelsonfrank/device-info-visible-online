@@ -1,10 +1,9 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/template/html"
+	"github.com/mssola/user_agent"
 )
 
 func main() {
@@ -16,18 +15,20 @@ func main() {
 	})
 
 	app.Static("/", "./public/static")
-
+	
 	app.Get("/", func(c *fiber.Ctx) error {
-		ipAddress := c.IP()
-		header := c.Request().Header.Peek("User-Agent")
-		fmt.Println(ipAddress)
-		fmt.Printf("%s", header)
+		ipAddress := c.Context().RemoteAddr().String()
+		userAgentString := c.Request().Header.Peek("User-Agent")
+		ua := user_agent.New(string(userAgentString))
+		name, version := ua.Browser()
 		
-		// Render index
-	   return c.Render("index", fiber.Map{
-			"Title": "Hello, World!",
-			"IpAdress": ipAddress,
-			"header": string(header),
+	    return c.Render("index", fiber.Map{
+			"Title": "Device Informations",
+			"IpAddress": ipAddress,
+			"devicerBrowser": name,
+			"devicerBrowserVersion": version,
+			"deviceOs": ua.OS(),
+			"deviceLocaliation": ua.Localization(),
 		}, "layouts/main")
 	})
 
