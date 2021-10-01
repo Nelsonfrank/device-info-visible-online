@@ -1,6 +1,8 @@
 package main
 
 import (
+	"os"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/template/html"
 	"github.com/mssola/user_agent"
@@ -32,7 +34,15 @@ func main() {
 		}, "layouts/main")
 	})
 
-	err := app.Listen(":4400")
+	// Get the PORT from  env
+	port := os.Getenv("PORT")
+
+	// Verify if the port is provided or not
+	if os.Getenv("PORT") == "" {
+		port = "4400"
+	}
+
+	err := app.Listen(":" + port)
 	if err != nil {
 		panic(err)
 
